@@ -3,6 +3,7 @@ package com.devsuperior.dsmovie.dto;
 import com.devsuperior.dsmovie.entities.Movie;
 
 public class MovieDTO {
+
     private Long id;
     private String title;
     private Double score;
