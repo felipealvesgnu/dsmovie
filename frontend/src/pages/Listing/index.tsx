@@ -29,9 +29,13 @@ function Listing() {
       });
   }, [pageNumber]); // O meu useEffect dependo do {pageNumber}, ou seja qdo o ele mudar, será feita uma nova requisicao
 
+  const handlePageChange = (newPageNumber: number) => {
+    setPageNumber(newPageNumber);
+  }
+
   return (
     <>
-      <Pagination />
+      <Pagination page={page} onChange={handlePageChange}/>
       <div className="container">
         <div className="row">
           {page.content.map(movie => (
