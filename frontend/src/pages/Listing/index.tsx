@@ -1,6 +1,7 @@
 import axios from 'axios';
 import MovieCard from 'components/MovieCard';
 import Pagination from 'components/Pagination';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { MoviePage } from 'types/movie';
 import { BASE_URL } from 'utils/requests';
@@ -9,11 +10,14 @@ function Listing() {
 
   const [pageNumber, setPageNumber] = useState(0);
 
-  // FORMA errada - pelo ciclo de vida do React, está executando 2 vezesw
-  axios.get(`${BASE_URL}/movies?size=12`).then((response) => {
-    const data = response.data as MoviePage;
-    setPageNumber(data.number);
-  });
+  useEffect(() => {
+    axios.get(`${BASE_URL}/movies?size=12&page=1`).then((response) => {
+      const data = response.data as MoviePage;
+      console.log(data);
+      setPageNumber(data.number);
+    });
+  }, []);
+  
 
   return (
     <>
