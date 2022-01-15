@@ -22,12 +22,12 @@ function Listing() {
 
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/movies?size=12&page=${pageNumber}`)
+      .get(`${BASE_URL}/movies?size=12&page=${pageNumber}&sort=title`) //ordena pelo sort
       .then((response) => {
         const data = response.data as MoviePage;
         setPage(data);
       });
-  }, [pageNumber]); // O meu useEffect dependo do {pageNumber}, ou seja qdo o ele mudar, será feita uma nova requisicao
+  }, [pageNumber]); // O meu useEffect depende do {pageNumber}, ou seja qdo o ele mudar, será feita uma nova requisicao
 
   const handlePageChange = (newPageNumber: number) => {
     setPageNumber(newPageNumber);

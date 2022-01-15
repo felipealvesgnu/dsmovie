@@ -18,7 +18,7 @@ function FormCard({ movieId }: Props) {
     axios.get(`${BASE_URL}/movies/${movieId}`).then((response) => {
       setMovie(response.data);
     });
-  });
+  }, [movieId]); // O meu useEffect depende do {movieId}, ou seja qdo o ele mudar, será feita uma nova requisicao
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
