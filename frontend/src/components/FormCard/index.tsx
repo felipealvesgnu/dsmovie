@@ -1,15 +1,17 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Movie } from 'types/movie';
 import './styles.css';
 import { BASE_URL } from '../../utils/requests';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { useState, useEffect } from 'react';
+import { validateEmail } from '../../utils/validate';
 
 type Props = {
   movieId: string;
 };
 
 function FormCard({ movieId }: Props) {
+  const navigate = useNavigate();
   const [movie, setMovie] = useState<Movie>();
 
   useEffect(() => {
@@ -17,6 +19,32 @@ function FormCard({ movieId }: Props) {
       setMovie(response.data);
     });
   });
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const email = (event.target as any).email.value;
+      const score = (event.target as any).score.value;
+
+      if(!validateEmail(email)){
+        return; //barra o envio se email n for válido
+      }
+
+      const config: AxiosRequestConfig = {
+        baseURL: BASE_URL,
+        method: 'PUT',
+        url: '/scores',
+        data: {
+          email: email,
+          movieId: movieId,
+          score: score
+        }
+      }
+
+      axios(config).then(response => {
+        console.log(response.data);
+        navigate("/");
+      });
+  }
 
   return (
     <div className="dsmovie-form-container">
@@ -27,12 +55,11 @@ function FormCard({ movieId }: Props) {
       />
       <div className="dsmovie-card-bottom-container">
         <h3>{movie?.title}</h3>
-        <form className="dsmovie-form">
+        <form className="dsmovie-form" onSubmit={handleSubmit}>
           <div className="form-group dsmovie-form-group">
             <label htmlFor="email">Informe seu email</label>
             <input type="email" className="form-control" id="email" />
           </div>
-          w
           <div className="form-group dsmovie-form-group">
             <label htmlFor="score">Informe sua avaliação</label>
             <select className="form-control" id="score">
